@@ -1,19 +1,16 @@
 using System;
+using System.Collections.Generic;
 using OrangeBeans.Models;
 
 namespace OrangeBeans {
 
   public class PaymentService
   {
+    PricingService pricingService = new PricingService();
     PaymentGateway gateway = new PaymentGateway();
     public string ProcessPayment(Order order)
     {
-      float total = 0;
-
-      foreach(var product in order.Products.Keys){
-        var quantity = order.Products[product];
-        total += product.Price * quantity;
-      }
+      float total = pricingService.GetFinalPrice(order);
 
       return "PR-" + gateway.InitiatePayment(total, order.ID);
     }
