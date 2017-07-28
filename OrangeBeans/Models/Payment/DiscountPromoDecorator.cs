@@ -18,14 +18,14 @@ namespace OrangeBeans.Models
         {
             if(ProductDiscount != null && ProductDiscount.Count > 0)
             {
-            int productDiscount = 0; 
-            foreach(var product in products.Keys)
-            {
-                if(ProductDiscount.TryGetValue(product.Name, out productDiscount))
+                int productDiscount = 0; 
+                foreach(var product in products.Keys)
                 {
-                    product.Price = (product.Price * productDiscount) / 100; 
-                }               
-            }
+                    if(ProductDiscount.TryGetValue(product.Name, out productDiscount))
+                    {
+                        product.Price = product.Price - ((product.Price * productDiscount) / 100); 
+                    }               
+                }
             }
             return priceProcessor.CalculateOrderTotal(products);
         }
